@@ -147,7 +147,7 @@ function salvarAluno(event) {
     alert("Aluno cadastrado com sucesso!");
     
     document.getElementById('formulario').style.display = 'none'; 
-    mostrarAlunos();
+
     
 }
 
@@ -157,27 +157,44 @@ function mostrarAlunos() {
     alunosDiv.innerHTML = "";
     
     alunos.forEach(aluno => {
+        const alunoDiv = document.createElement("div");
+    
         const alunoNome = document.createElement("p");
         alunoNome.textContent = aluno.name;
         alunoNome.style.cursor = "pointer";
         alunoNome.addEventListener("click", () => mostrarInformacoesAluno(aluno));
-        
-        alunosDiv.appendChild(alunoNome);
-
-        function mostrarInformacoesAluno() {
+    
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.textContent = "Excluir";
+        botaoExcluir.addEventListener("click", () => excluirAluno(aluno));
+    
+        alunoDiv.appendChild(alunoNome);
+        alunoDiv.appendChild(botaoExcluir);
+    
+        alunosDiv.appendChild(alunoDiv);
+    
+        function mostrarInformacoesAluno(aluno) {
             alert("Nome: " + aluno.name +
-            "\nEmail: " + aluno.email +
-            "\nTelefone: " + aluno.phone +
-            "\nCPF: " + aluno.cpf +
-            "\nInstrumento " + aluno.instrument +
-            "\nHorário de aula: " + aluno.classHour +
-            "\nData de matrícula: " + aluno.startDate +
-            "\nData de Aniversário: " + aluno.birthDate +
-            "\nFormato da aula: " + aluno.classType)
+                "\nEmail: " + aluno.email +
+                "\nTelefone: " + aluno.phone +
+                "\nCPF: " + aluno.cpf +
+                "\nInstrumento: " + aluno.instrument +
+                "\nHorário de aula: " + aluno.classHour +
+                "\nData de matrícula: " + aluno.startDate +
+                "\nData de Aniversário: " + aluno.birthDate +
+                "\nFormato da aula: " + aluno.classType);
         }
     });
     
 }
 
+function excluirAluno(aluno) {
+    const alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+    const novosAlunos = alunos.filter(a => a.name !== aluno.name);
+    localStorage.setItem("alunos", JSON.stringify(novosAlunos));
+    alert("Aluno excluído com sucesso!");
+    mostrarAlunos(); // Atualiza a lista de alunos na tela
+    
+}
 mostrarAlunos();
 

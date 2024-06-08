@@ -3,21 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="/style.css">
 <title>Cadastro de Alunos</title>
 </head>
 <body>
 <h1>Cadastro de Alunos</h1>
 
-<button onclick="abrirFormulario()">Abrir Formulário</button>
+<div class="container">
+    <button onclick="abrirFormulario()">Abrir Formulário</button>
 
-<button onclick="mostrarAlunos()">Mostrar alunos</button>
+    <button onclick="mostrarAlunos()">Mostrar alunos</button>
 
-
-<div id="formulario" >
-    <form onsubmit="salvarAluno(event)">
-    </form>
 </div>
-<div id="alunos"></div>
+
+<div class="container">
+    <div id="formulario" >
+        <form onsubmit="salvarAluno(event)">
+        </form>
+    </div>
+    <div id="alunos"></div>
+</div>
+
 </body>
 <script src="./script.js"></script>
 </html>
