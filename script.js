@@ -146,7 +146,8 @@ function salvarAluno(event) {
     
     alert("Aluno cadastrado com sucesso!");
     
-    document.getElementById('formulario').style.display = 'none'; 
+    document.getElementById("formulario").innerHTML = "";
+ 
 
     
 }
