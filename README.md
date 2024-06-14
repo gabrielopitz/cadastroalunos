@@ -11,9 +11,9 @@ Também temos um botão para mostrar os nomes dos alunos cadastrados, essas info
 
 * Um botão para fechar a sessão de alunos;
   
-* Outro botão para excluir um aluno, digitar o nome do aluno e excluir da lista;
+* Outro botão para excluir um aluno, digitar o nome do aluno e excluir da lista; OK
 
-* Inserir foto do aluno(a);
+* Inserir foto do aluno(a); 
   
 * Campo para diário de aulas dos alunos;
 
