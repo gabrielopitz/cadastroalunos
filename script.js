@@ -1,3 +1,4 @@
+  
 function abrirFormulario() {
     var formulario = document.getElementById('formulario');
     
@@ -122,6 +123,12 @@ function abrirFormulario() {
     newUl.appendChild(submitButton)
 
     formulario.appendChild(newUl)
+    
+    if (!formulario) {
+    
+    } else {
+        alert('O formulário já está aberto. Por favor, complete o cadastro atual antes de abrir um novo.');
+    }
 }
 
 function salvarAluno(event) {
@@ -146,9 +153,6 @@ function salvarAluno(event) {
     
     alert("Aluno cadastrado com sucesso!");
     
-    document.getElementById("formulario").innerHTML = "";
- 
-
     
 }
 

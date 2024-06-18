@@ -1,8 +1,6 @@
-h1 {
+header {
     text-align: center;
-    padding-top: 2rem;
 }
-
 .container {
     display: flex;
     justify-content: center;
