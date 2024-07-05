@@ -15,5 +15,5 @@ Também temos um botão para mostrar os nomes dos alunos cadastrados, essas info
 
 * Inserir foto do aluno(a); 
   
-* Campo para diário de aulas dos alunos;
+* Campo para diário de aulas dos alunos (ATUALIZADO)
 
