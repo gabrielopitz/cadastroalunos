@@ -1,205 +1,304 @@
-  
+let formularioAberto = false;
+let formularioAulasAberto = false;
+
+
 function abrirFormulario() {
-    var formulario = document.getElementById('formulario');
-    
-    const newUl = document.createElement('ul')
+    if (!formularioAberto) {
+        const formulario = document.getElementById('formulario');
+        formulario.innerHTML = '';
 
-    const nameLabel = document.createElement('label')
-    nameLabel.className = 'list-item'
-    nameLabel.innerText = 'Nome do aluno: '
-    const newInputName = document.createElement('input')
-    newInputName.className = 'name'
-    newInputName.type = 'text'
-    newInputName.name = 'name'
-    newInputName.id = 'name'
+        const campos = [
+            { label: 'Nome do aluno:', type: 'text', name: 'name', placeholder: 'Nome (instrumento)', required: true },
+            { label: 'Email:', type: 'text', name: 'email', required: true },
+            { label: 'Telefone:', type: 'tel', name: 'phone', placeholder: '(12)1234-1234' },
+            { label: 'CPF:', type: 'text', name: 'cpf', placeholder: '123.123.123-22' },
+            { label: 'Horário da aula:', type: 'time', name: 'classHour' },
+            { label: 'Data de matrícula:', type: 'date', name: 'startDate' },
+            { label: 'Data de aniversário:', type: 'date', name: 'birthDate' },
+            { label: 'Formato da aula (online/Presencial):', type: 'text', name: 'classType' },
+            { label: 'Sobre o aluno(a):', type: 'textarea', name: 'about'}
+        ];
 
-    nameLabel.appendChild(newInputName)
-    newUl.appendChild(nameLabel)
-    
+        const newUl = document.createElement('ul');
+        campos.forEach(campo => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            label.textContent = campo.label;
+            const input = document.createElement('input');
+            input.type = campo.type;
+            input.name = campo.name;
+            input.required = campo.required;
+            
+            if (campo.placeholder) {
+                input.placeholder = campo.placeholder;
+               
+            }
+            if (campo.required) {
+                input.required = true
+            }
+            label.appendChild(input);
+            li.appendChild(label);
+            newUl.appendChild(li);
+        });
 
-    const emailLabel = document.createElement('label')
-    emailLabel.className = 'list-item'
-    emailLabel.innerText = ' Email: '
-    const newInputEmail = document.createElement('input')
-    newInputEmail.className = 'email'
-    newInputEmail.type = 'text'
-    newInputEmail.name = 'email'
-    newInputEmail.id = 'email'
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit'; 
+        submitButton.innerText = 'Cadastrar';
+        submitButton.addEventListener('click', salvarAluno);
+        newUl.appendChild(submitButton);
 
-    emailLabel.appendChild(newInputEmail)
-    newUl.appendChild(emailLabel)
+        formulario.appendChild(newUl);
 
-    const phoneLabel = document.createElement('label')
-    phoneLabel.className = 'list-item'
-    phoneLabel.innerText = ' Telefone: '
-    const newInputPhone = document.createElement('input')
-    newInputPhone.className = 'phone'
-    newInputPhone.type = 'tel'
-    newInputPhone.name = 'phone'
-    newInputPhone.id = 'phone'
-    newInputPhone.placeholder = '(12)1234-1234'
-
-    phoneLabel.appendChild(newInputPhone)
-    newUl.appendChild(phoneLabel)
-
-    const cpfLabel = document.createElement('label')
-    cpfLabel.className = 'list-item'
-    cpfLabel.innerText = ' CPF: '
-    const newInputCpf = document.createElement('input')
-    newInputCpf.className = 'cpf'
-    newInputCpf.type = 'text'
-    newInputCpf.name = 'cpf'
-    newInputCpf.id = 'cpf'
-    newInputCpf.placeholder = '123.123.123-22'
-
-    cpfLabel.appendChild(newInputCpf)
-    newUl.appendChild(cpfLabel)
-
-    const instrumentLabel = document.createElement('label')
-    instrumentLabel.className = 'list-item'
-    instrumentLabel.innerText = ' Instrumento: '
-    const newInputInstrumet = document.createElement('input')
-    newInputInstrumet.className = 'instrument'
-    newInputInstrumet.type = 'text'
-    newInputInstrumet.id = 'instrument'
-    newInputInstrumet.name = 'instrumet'
-
-    instrumentLabel.appendChild(newInputInstrumet)
-    newUl.appendChild(instrumentLabel)
-
-    const classHourLabel = document.createElement('label')
-    classHourLabel.className = 'list-item'
-    classHourLabel.innerText = ' Horário da aula: '
-    const newInputClassHour = document.createElement('input')
-    newInputClassHour.className = 'classHour'
-    newInputClassHour.type = 'time'
-    newInputClassHour.id = 'classHour'
-    newInputClassHour.name = 'classHour'
-
-    classHourLabel.appendChild(newInputClassHour)
-    newUl.appendChild(classHourLabel)
-
-    const startDateLabel = document.createElement('label')
-    startDateLabel.className = 'list-item'
-    startDateLabel.innerText = ' Data de matrícula: '
-    const newInputStartDate = document.createElement('input')
-    newInputStartDate.className = 'startDate'
-    newInputStartDate.type = 'date'
-    newInputStartDate.name = 'startDate'
-    newInputStartDate.id = 'startDate'
-
-    startDateLabel.appendChild(newInputStartDate)
-    newUl.appendChild(startDateLabel)
-
-    const birthDateLabel = document.createElement('label')
-    birthDateLabel.className = 'list-item'
-    birthDateLabel.innerText = ' Data de aniversário: '
-    const newInputBirthDate = document.createElement('input')
-    newInputBirthDate.className = 'birthDate'
-    newInputBirthDate.type = 'date'
-    newInputBirthDate.name = 'birthDate'
-    newInputBirthDate.id = 'birthDate'
-
-    birthDateLabel.appendChild(newInputBirthDate)
-    newUl.appendChild(birthDateLabel)
-
-    const classTypeLabel = document.createElement('label')
-    classTypeLabel.className = 'list-item'
-    classTypeLabel.innerText = ' Formato da aula (online/Presencial):  '
-    const newInputClassType = document.createElement('input')
-    newInputClassType.className = 'classType'
-    newInputClassType.type = 'text'
-    newInputClassType.name = 'classType'
-    newInputClassType.id = 'classType'
-
-    classTypeLabel.appendChild(newInputClassType)
-    newUl.appendChild(classTypeLabel)
-
-    const submitButton = document.createElement('button')
-    submitButton.type = 'submit'
-    submitButton.innerText = 'Cadastrar'
-    submitButton.addEventListener('click', salvarAluno)
-
-    newUl.appendChild(submitButton)
-
-    formulario.appendChild(newUl)
-    
-    if (!formulario) {
-    
+        formularioAberto = true;
     } else {
         alert('O formulário já está aberto. Por favor, complete o cadastro atual antes de abrir um novo.');
     }
+
+
 }
 
 function salvarAluno(event) {
     event.preventDefault();
-    
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone").value;
-    const cpf = document.getElementById("cpf").value;
-    const instrument = document.getElementById("instrument").value;
-    const classHour = document.getElementById("classHour").value;
-    const birthDate = document.getElementById("birthDate").value; 
-    const startDate = document.getElementById("startDate").value;
-    const classType = document.getElementById("classType").value;
 
-    const aluno = { name, email, phone, cpf, instrument, classHour, birthDate, startDate, classType };
-    
-    let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const phone = document.querySelector('input[name="phone"]').value;
+    const cpf = document.querySelector('input[name="cpf"]').value;
+    const classHour = document.querySelector('input[name="classHour"]').value;
+    const startDate = document.querySelector('input[name="startDate"]').value;
+    const birthDate = document.querySelector('input[name="birthDate"]').value;
+    const classType = document.querySelector('input[name="classType"]').value;
+    const about = document.querySelector('input[name="about"]').value;
+
+    const aluno = { name, email, phone, cpf, classHour, startDate, birthDate, classType, about };
+
+    let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
     alunos.push(aluno);
-    
-    localStorage.setItem("alunos", JSON.stringify(alunos));
-    
-    alert("Aluno cadastrado com sucesso!");
-    
-    
+    localStorage.setItem('alunos', JSON.stringify(alunos));
+
+    alert('Aluno ' + aluno.name + ' cadastrado com sucesso!');
+
+    const formulario = document.getElementById('formulario');
+    formulario.innerHTML = '';
+    formularioAberto = false;
 }
+
 
 function mostrarAlunos() {
-    const alunos = JSON.parse(localStorage.getItem("alunos")) || [];
-    const alunosDiv = document.getElementById("alunos");
-    alunosDiv.innerHTML = "";
-    
+
+    const botaoCadastrarAula = document.createElement('button')
+    botaoCadastrarAula.textContent = 'Cadastrar aula'
+    botaoCadastrarAula.addEventListener('click', () => abrirFormularioAulas())
+
+    const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+    const alunosDiv = document.getElementById('alunos');
+    alunosDiv.innerHTML = '';
+
+    alunosDiv.appendChild(botaoCadastrarAula);
     alunos.forEach(aluno => {
-        const alunoDiv = document.createElement("div");
-    
-        const alunoNome = document.createElement("p");
+        const alunoDiv = document.createElement('div');
+        const alunoNome = document.createElement('p');
         alunoNome.textContent = aluno.name;
-        alunoNome.style.cursor = "pointer";
-        alunoNome.addEventListener("click", () => mostrarInformacoesAluno(aluno));
-    
-        const botaoExcluir = document.createElement("button");
-        botaoExcluir.textContent = "Excluir";
-        botaoExcluir.addEventListener("click", () => excluirAluno(aluno));
-    
+        alunoNome.style.cursor = 'pointer';
+        alunoNome.style.display = 'grid'
+        alunoNome.style.justifyContent = 'center'
+        alunoNome.addEventListener('click', () => mostrarInformacoesAluno(aluno));
+        
+        const botaoExcluir = document.createElement('button');
+        const botaoDiarioAluno = document.createElement('button');
+        botaoExcluir.textContent = 'Excluir';
+        botaoExcluir.addEventListener('click', () => excluirAluno(aluno));
+        botaoDiarioAluno.textContent = 'Aulas';
+        botaoDiarioAluno.addEventListener('click', () => mostrarAulas())
+        
+        
         alunoDiv.appendChild(alunoNome);
         alunoDiv.appendChild(botaoExcluir);
-    
+        alunoDiv.appendChild(botaoDiarioAluno)
+        
+        
         alunosDiv.appendChild(alunoDiv);
-    
-        function mostrarInformacoesAluno(aluno) {
-            alert("Nome: " + aluno.name +
-                "\nEmail: " + aluno.email +
-                "\nTelefone: " + aluno.phone +
-                "\nCPF: " + aluno.cpf +
-                "\nInstrumento: " + aluno.instrument +
-                "\nHorário de aula: " + aluno.classHour +
-                "\nData de matrícula: " + aluno.startDate +
-                "\nData de Aniversário: " + aluno.birthDate +
-                "\nFormato da aula: " + aluno.classType);
-        }
+        
     });
-    
 }
+
+function mostrarInformacoesAluno(aluno) {
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+    
+    const overlayContent = document.createElement('div');
+    overlayContent.classList.add('overlay-content');
+    
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close-btn');
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', fecharOverlay);
+    
+    const alunoInfo = document.createElement('div');
+    alunoInfo.innerHTML = `
+        <h3>Informações do Aluno</h2>
+        <p><strong>Nome:</strong> ${aluno.name}</p>
+        <p><strong>Email:</strong> ${aluno.email}</p>
+        <p><strong>Telefone:</strong> ${aluno.phone}</p>
+        <p><strong>CPF:</strong> ${aluno.cpf}</p>
+        <p><strong>Horário de Aula:</strong> ${aluno.classHour}</p>
+        <p><strong>Data de Matrícula:</strong> ${aluno.startDate}</p>
+        <p><strong>Data de Aniversário:</strong> ${aluno.birthDate}</p>
+        <p><strong>Formato da Aula:</strong> ${aluno.classType}</p>
+    `;
+    
+    overlayContent.appendChild(closeButton);
+    overlayContent.appendChild(alunoInfo);
+    overlay.appendChild(overlayContent);
+    
+    document.body.appendChild(overlay);
+    
+
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '1000';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    
+    overlayContent.style.backgroundColor = '#fff';
+    overlayContent.style.padding = '20px';
+    overlayContent.style.maxWidth = '600px';
+    overlayContent.style.maxHeight = '80%';
+    overlayContent.style.overflowY = 'auto';
+    overlayContent.style.borderRadius = '8px';
+    overlayContent.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.3)';
+    
+    function fecharOverlay() {
+        overlay.remove();
+    } 
+}
+
 
 function excluirAluno(aluno) {
-    const alunos = JSON.parse(localStorage.getItem("alunos")) || [];
-    const novosAlunos = alunos.filter(a => a.name !== aluno.name);
-    localStorage.setItem("alunos", JSON.stringify(novosAlunos));
-    alert("Aluno excluído com sucesso!");
-    mostrarAlunos(); // Atualiza a lista de alunos na tela
-    
+    let alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+    alunos = alunos.filter(a => a.name !== aluno.name);
+    localStorage.setItem('alunos', JSON.stringify(alunos));
+    alert('Aluno ' + aluno.name + ' excluído com sucesso: ');
+    mostrarAlunos(); 
 }
-mostrarAlunos();
 
+function mostrarAulas(aluno) {
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+    
+    const overlayContent = document.createElement('div');
+    overlayContent.classList.add('overlay-content');
+    
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close-btn');
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', fecharOverlay);
+    
+    const alunoInfo = document.createElement('div');
+    alunoInfo.innerHTML = `
+        <h3>Aulas cadastradas</h2>
+        <p><strong>Nome:</strong> ${aluno.name}</p>
+        <p><strong>Email:</strong> ${aluno.email}</p>
+        <p><strong>Telefone:</strong> ${aluno.phone}</p>
+        <p><strong>CPF:</strong> ${aluno.cpf}</p>
+        <p><strong>Horário de Aula:</strong> ${aluno.classHour}</p>
+        <p><strong>Data de Matrícula:</strong> ${aluno.startDate}</p>
+        <p><strong>Data de Aniversário:</strong> ${aluno.birthDate}</p>
+        <p><strong>Formato da Aula:</strong> ${aluno.classType}</p>
+    `;
+    
+    overlayContent.appendChild(closeButton);
+    overlayContent.appendChild(alunoInfo);
+    overlay.appendChild(overlayContent);
+    
+    document.body.appendChild(overlay);
+    
+
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '1000';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    
+    overlayContent.style.backgroundColor = '#fff';
+    overlayContent.style.padding = '20px';
+    overlayContent.style.maxWidth = '600px';
+    overlayContent.style.maxHeight = '80%';
+    overlayContent.style.overflowY = 'auto';
+    overlayContent.style.borderRadius = '8px';
+    overlayContent.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.3)';
+
+    function fecharOverlay() {
+        overlay.remove();
+    }
+}
+
+function abrirFormularioAulas() {
+    if (!formularioAulasAberto) {
+        const formularioAulas = document.getElementById('aulas');
+        formularioAulas.innerHTML = '';
+
+        const camposAulas = [
+            { label: 'Nome do aluno:', type: 'text', name: 'name', placeholder: 'Nome (instrumento)'},
+            { label: 'Data da aula:', type: 'date', name: 'classDate' },
+            { label: 'Sobre a aula:', type: 'textarea', name: 'aboutClass'}
+        ];
+
+        const newUlaulas = document.createElement('ul');
+        camposAulas.forEach(campoAulas => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            label.textContent = campoAulas.label;
+            const input = document.createElement('input');
+            input.type = campoAulas.type;
+            input.name = campoAulas.name;
+            
+            label.appendChild(input);
+            li.appendChild(label);
+            newUlaulas.appendChild(li);
+        });
+
+        const submitButton = document.createElement('button');
+        submitButton.type = 'submit'; 
+        submitButton.innerText = 'Cadastrar';
+        submitButton.addEventListener('click', salvarAulas);
+        newUlaulas.appendChild(submitButton);
+
+        formularioAulas.appendChild(newUlaulas);
+
+        formularioAulasAberto = true;
+    } else {
+        alert('O diário já está aberto. Por favor, complete o cadastro atual antes de abrir um novo.');
+    }
+
+}
+
+function salvarAulas(event) {
+    event.preventDefault();
+
+    const name = document.querySelector('input[name="name"]').value;
+    const classDate = document.querySelector('input[name="classDate"]').value;
+    const aboutClass = document.querySelector('input[name="aboutClass"]').value;
+
+    const aula = { name, classDate, aboutClass };
+
+    let alunos = JSON.parse(localStorage.getItem('aulas')) || [];
+    alunos.push(aula);
+    localStorage.setItem('aulas', JSON.stringify(aulas));
+
+    alert('Aula dia ' + classDate.name + ' cadastrada com sucesso!');
+
+    const formularioAulas = document.getElementById('aulas');
+    formularioAulas.innerHTML = '';
+    formularioAulasAberto = false;
+}

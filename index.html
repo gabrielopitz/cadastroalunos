@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/pico-1.5.10/css/pico.min.css">
 <link rel="stylesheet" href="/style.css">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+/>
 <title>Cadastro de Alunos</title>
 </head>
 <body>
@@ -14,23 +18,23 @@
             <nav>
                 <ul>
                     <li>
-                        <button onclick="abrirFormulario()">Abrir Formulário</button>
+                        <button onclick="abrirFormulario()">Cadastrar novo aluno</button>
                     </li>
                     <li>
-                        <button onclick="mostrarAlunos()">Mostrar alunos</button>
+                        <button onclick="mostrarAlunos()">Alunos cadastrados</button>
                     </li>
                 </ul>
             </nav>
         </div>
     </header> 
     <div class="grid">
-        <div>
+        <div class="container">
             <div id="formulario" >
-            <form onsubmit="salvarAluno(event)">
-            </form>
+                <form onsubmit="salvarAluno(event)">
+                </form>
             </div>
         </div>
-        <div>
+        <div class="container">
             <div>
                 <div id="alunos"></div>
                 <div id="overlay" class="overlay">
@@ -38,7 +42,12 @@
                 </div>
             </div>
         </div>
-        </div>   
+        <div class="container">
+            <div id="aulas">
+                
+            </div>
+        </div>
+    </div>   
     
 </body>
 <script src="./script.js"></script>
