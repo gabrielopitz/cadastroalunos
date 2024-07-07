@@ -187,62 +187,6 @@ function excluirAluno(aluno) {
     mostrarAlunos(); 
 }
 
-function mostrarAulas(aluno) {
-    const overlay = document.createElement('div');
-    overlay.classList.add('overlay');
-    
-    const overlayContent = document.createElement('div');
-    overlayContent.classList.add('overlay-content');
-    
-    const closeButton = document.createElement('span');
-    closeButton.classList.add('close-btn');
-    closeButton.innerHTML = '&times;';
-    closeButton.addEventListener('click', fecharOverlay);
-    
-    const alunoInfo = document.createElement('div');
-    alunoInfo.innerHTML = `
-        <h3>Aulas cadastradas</h2>
-        <p><strong>Nome:</strong> ${aluno.name}</p>
-        <p><strong>Email:</strong> ${aluno.email}</p>
-        <p><strong>Telefone:</strong> ${aluno.phone}</p>
-        <p><strong>CPF:</strong> ${aluno.cpf}</p>
-        <p><strong>Horário de Aula:</strong> ${aluno.classHour}</p>
-        <p><strong>Data de Matrícula:</strong> ${aluno.startDate}</p>
-        <p><strong>Data de Aniversário:</strong> ${aluno.birthDate}</p>
-        <p><strong>Formato da Aula:</strong> ${aluno.classType}</p>
-    `;
-    
-    overlayContent.appendChild(closeButton);
-    overlayContent.appendChild(alunoInfo);
-    overlay.appendChild(overlayContent);
-    
-    document.body.appendChild(overlay);
-    
-
-    overlay.style.position = 'fixed';
-    overlay.style.top = '0';
-    overlay.style.left = '0';
-    overlay.style.width = '100%';
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    overlay.style.zIndex = '1000';
-    overlay.style.display = 'flex';
-    overlay.style.justifyContent = 'center';
-    overlay.style.alignItems = 'center';
-    
-    overlayContent.style.backgroundColor = '#fff';
-    overlayContent.style.padding = '20px';
-    overlayContent.style.maxWidth = '600px';
-    overlayContent.style.maxHeight = '80%';
-    overlayContent.style.overflowY = 'auto';
-    overlayContent.style.borderRadius = '8px';
-    overlayContent.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.3)';
-
-    function fecharOverlay() {
-        overlay.remove();
-    }
-}
-
 function abrirFormularioAulas() {
     if (!formularioAulasAberto) {
         const formularioAulas = document.getElementById('aulas');
@@ -288,17 +232,98 @@ function salvarAulas(event) {
 
     const name = document.querySelector('input[name="name"]').value;
     const classDate = document.querySelector('input[name="classDate"]').value;
-    const aboutClass = document.querySelector('input[name="aboutClass"]').value;
+    const aboutClass = document.getElementsByName('textarea[name="aboutClass"]').value;
 
     const aula = { name, classDate, aboutClass };
 
-    let alunos = JSON.parse(localStorage.getItem('aulas')) || [];
-    alunos.push(aula);
-    localStorage.setItem('aulas', JSON.stringify(aulas));
+    let aulasAlunos = JSON.parse(localStorage.getItem('aulasAlunos')) || [];
+    aulasAlunos.push(aula);
+    localStorage.setItem('aulas', JSON.stringify(aulasAlunos));
 
-    alert('Aula dia ' + classDate.name + ' cadastrada com sucesso!');
+    alert('Aula dia ' + classDate + ' cadastrada com sucesso!');
 
     const formularioAulas = document.getElementById('aulas');
     formularioAulas.innerHTML = '';
     formularioAulasAberto = false;
+}
+
+
+function mostrarAulas() {
+
+    const aulas = JSON.parse(localStorage.getItem('aulas')) || [];
+    const aulasDiv = document.getElementById('aulas');
+    aulasDiv.innerHTML = '';
+
+    aulas.forEach(aula => {
+        const aulaDiv = document.createElement('div');
+        const aulaNome = document.createElement('p');
+        aulaNome.textContent = aula.classDate;
+        aulaNome.style.cursor = 'pointer';
+        aulaNome.style.display = 'grid'
+        aulaNome.style.justifyContent = 'center'
+        aulaNome.addEventListener('click', () => mostrarInformacoesAula(aula));
+        
+        const botaoExcluir = document.createElement('button');
+        const botaoDiarioaula = document.createElement('button');
+        botaoExcluir.textContent = 'Excluir';
+        botaoExcluir.addEventListener('click', () => excluiraula(aula));
+        
+        aulaDiv.appendChild(aulaNome);
+        aulaDiv.appendChild(botaoExcluir);
+
+        aulasDiv.appendChild(aulaDiv);
+        
+    });
+}
+
+function mostrarInformacoesAula(aula) {
+
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+    
+    const overlayContent = document.createElement('div');
+    overlayContent.classList.add('overlay-content');
+    
+    const closeButton = document.createElement('span');
+    closeButton.classList.add('close-btn');
+    closeButton.innerHTML = '&times;';
+    closeButton.addEventListener('click', fecharOverlay);
+    
+    const alunoInfo = document.createElement('div');
+    alunoInfo.innerHTML = `
+        <h3>Informações da aula</h2>
+        <p><strong>Nome:</strong> ${aula.name}</p>
+        <p><strong>Data da Aula:</strong> ${aula.classDate}</p>
+        <p><strong>Sobre a aula:</strong> ${aula.aboutClass}</p>
+    `;
+    
+    overlayContent.appendChild(closeButton);
+    overlayContent.appendChild(alunoInfo);
+    overlay.appendChild(overlayContent);
+    
+    document.body.appendChild(overlay);
+    
+
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '1000';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    
+    overlayContent.style.backgroundColor = '#fff';
+    overlayContent.style.padding = '20px';
+    overlayContent.style.maxWidth = '600px';
+    overlayContent.style.maxHeight = '80%';
+    overlayContent.style.overflowY = 'auto';
+    overlayContent.style.borderRadius = '8px';
+    overlayContent.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.3)';
+    
+    function fecharOverlay() {
+        overlay.remove();
+    } 
 }
